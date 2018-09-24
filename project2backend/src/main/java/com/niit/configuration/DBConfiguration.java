@@ -15,7 +15,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-public class DBConfiguration {
+public class DBConfiguration 
+{
 	
 	public DBConfiguration(){
 		System.out.println("DBCOnfiguration class instantiated");
