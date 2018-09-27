@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.niit.model.BlogPost;
+import com.niit.model.BlogPostlikes;
 import com.niit.model.BlogPostLikes;
 import com.niit.model.User;
 
@@ -27,16 +27,16 @@ public class BlogPostLikesDaoImpl implements BlogPostLikesDao {
 		return blogPostLikes;
 	}
   
-	public BlogPost updateLikes(int postId, String email) {
+	public BlogPostlikes updateLikes(int postId, String email) {
 			Session session = sessionFactory.getCurrentSession();
 		BlogPostLikes blogPostLikes=hasUserLikedPost(postId, email);
 		
-		BlogPost blogPost=(BlogPost)session.get(BlogPost.class, postId);
+		BlogPostlikes blogPost=(BlogPostlikes)session.get(BlogPostlikes.class, postId);
 		
 		if(blogPostLikes==null){
 			BlogPostLikes likes=new BlogPostLikes();
 			User user=(User)session.get(User.class, email);
-			likes.setBlogPost(blogPost);
+			likes.setBlogPostLikes(blogPost);
 			likes.setUser(user);
 			session.save(likes);
 			blogPost.setLikes(blogPost.getLikes() + 1); 

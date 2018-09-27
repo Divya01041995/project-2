@@ -14,7 +14,7 @@ public class BlogPost {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 private int likesId;//PK
 	@ManyToOne
-private BlogPost blogPost;//FK  blogpost_id
+private BlogPostlikes blogPost;//FK  blogpost_id
 	@ManyToOne
 private User user;//FK  user_email
 	public int getLikesId() {
@@ -23,10 +23,10 @@ private User user;//FK  user_email
 	public void setLikesId(int likesId) {
 		this.likesId = likesId;
 	}
-	public BlogPost getBlogPost() {
+	public BlogPostlikes getBlogPost() {
 		return blogPost;
 	}
-	public void setBlogPost(BlogPost blogPost) {
+	public void setBlogPost(BlogPostlikes blogPost) {
 		this.blogPost = blogPost;
 	}
 	public User getUser() {

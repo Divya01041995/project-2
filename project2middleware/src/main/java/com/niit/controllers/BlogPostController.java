@@ -18,7 +18,7 @@ import com.niit.dao.BlogPostDao;
 import com.niit.dao.BlogPostLikesDao;
 import com.niit.dao.UserDao;
 import com.niit.model.BlogComment;
-import com.niit.model.BlogPost;
+import com.niit.model.BlogPostlikes;
 import com.niit.model.BlogPostLikes;
 import com.niit.model.ErrorClazz;
 import com.niit.model.User;
@@ -33,7 +33,7 @@ public class BlogPostController {
 	private BlogPostLikesDao blogPostLikesDao;
 	
 	@RequestMapping(value="/addblogpost",method=RequestMethod.POST)
-	public ResponseEntity<?> addBlogPost(@RequestBody BlogPost blogPost,HttpSession session){
+	public ResponseEntity<?> addBlogPost(@RequestBody BlogPostlikes blogPost,HttpSession session){
 		String email=(String)session.getAttribute("loginId");
 		if(email==null) {
 			ErrorClazz error=new ErrorClazz(4,"Unauthorized access please login");
@@ -44,7 +44,7 @@ public class BlogPostController {
 		blogPost.setPostedBy(postedBy);
 		try {
 			blogPostDao.addBlogPost(blogPost);
-			return new ResponseEntity<BlogPost>(blogPost,HttpStatus.OK);
+			return new ResponseEntity<BlogPostlikes>(blogPost,HttpStatus.OK);
 		}catch(Exception e) {
 			ErrorClazz error=new ErrorClazz(7,"Unable to insert blogpost details");
 			return new ResponseEntity<ErrorClazz>(error,HttpStatus.INTERNAL_SERVER_ERROR);
@@ -66,8 +66,8 @@ public class BlogPostController {
 				return new ResponseEntity<ErrorClazz>(error,HttpStatus.UNAUTHORIZED);
 			}
 		}
-		List<BlogPost> blogs=blogPostDao.getBlogs(approved);
-		return new ResponseEntity<List<BlogPost>>(blogs,HttpStatus.OK);
+		List<BlogPostlikes> blogs=blogPostDao.getBlogs(approved);
+		return new ResponseEntity<List<BlogPostlikes>>(blogs,HttpStatus.OK);
 	}
 	
 
@@ -79,14 +79,14 @@ public class BlogPostController {
 			return new ResponseEntity<ErrorClazz>(error,HttpStatus.UNAUTHORIZED); //2nd callback function
 		}
 		User user=userDao.getUser(email);
-		BlogPost blogPost=blogPostDao.getBlogById(id);
+		BlogPostlikes blogPost=blogPostDao.getBlogById(id);
 		if(!blogPost.isApproved())
 			if(!user.getRole().equals("ADMIN")){
 				ErrorClazz error=new ErrorClazz(4,"Access Denied..");
 				return new ResponseEntity<ErrorClazz>(error,HttpStatus.UNAUTHORIZED);
 			}
 			
-		return new ResponseEntity<BlogPost>(blogPost,HttpStatus.OK);
+		return new ResponseEntity<BlogPostlikes>(blogPost,HttpStatus.OK);
 	}
 	
 
@@ -111,8 +111,8 @@ public class BlogPostController {
 			return new ResponseEntity<ErrorClazz>(error,HttpStatus.UNAUTHORIZED);
 		}
 		
-		BlogPost blogPost=blogPostLikesDao.updateLikes(id, email);
-		return new ResponseEntity<BlogPost>(blogPost,HttpStatus.OK);
+		BlogPostlikes blogPost=blogPostLikesDao.updateLikes(id, email);
+		return new ResponseEntity<BlogPostlikes>(blogPost,HttpStatus.OK);
 	}
 
 	@RequestMapping(value="/blogapproved/{id}",method=RequestMethod.PUT)
